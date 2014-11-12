@@ -21,6 +21,8 @@
 + (NSArray *)allInstances;
 + (void)releaseCache;
 
++ (NSDictionary *)loadDictionaryFromURL:(NSURL *)url;
+
 - (instancetype)initForKey:(NSString *)key withDictionary:(NSDictionary *)dict andDefaults:(NSDictionary *)defs;
 - (NSString *)stringValue;
 @end

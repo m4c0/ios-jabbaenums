@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Eduardo Mauricio da Costa. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for JabbaEnums.
 FOUNDATION_EXPORT double JabbaEnumsVersionNumber;
