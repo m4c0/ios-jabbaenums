@@ -83,9 +83,11 @@ const char JBEEnumClassMethodSuffix;
     return instance;
 }
 + (NSDictionary *)loadDictionaryFromURL:(NSURL *)url {
-    Class meta = object_getClass(self);
-    
     NSDictionary * dict = [NSDictionary dictionaryWithContentsOfURL:url];
+    return [self convertDictionary:dict];
+}
++ (NSDictionary *)convertDictionary:(NSDictionary *)dict {
+    Class meta = object_getClass(self);
     NSMutableDictionary * res = [NSMutableDictionary new];
     [dict enumerateKeysAndObjectsUsingBlock:^(id key, id raw, BOOL *stop) {
         NSString * novars = [key stringByAppendingString:[self methodSuffix]];

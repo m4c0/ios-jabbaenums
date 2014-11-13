@@ -24,6 +24,7 @@
 + (void)releaseCache;
 
 + (NSDictionary *)loadDictionaryFromURL:(NSURL *)url;
++ (NSDictionary *)convertDictionary:(NSDictionary *)dict;
 
 - (instancetype)initForKey:(NSString *)key withDictionary:(NSDictionary *)dict andDefaults:(NSDictionary *)defs;
 - (NSString *)stringValue;
