@@ -33,7 +33,7 @@ const char JBEEnumClassMethodSuffix;
         Class * list = objc_copyClassList(&count);
         for (int i = 0; i < count; i++) {
             Class c = list[i];
-            while (c = class_getSuperclass(c)) {
+            while ((c = class_getSuperclass(c))) {
                 if (c == [JBEEnum self]) {
                     types[NSStringFromClass(list[i])] = list[i];
                     break;
@@ -63,7 +63,7 @@ const char JBEEnumClassMethodSuffix;
 + (instancetype)allocForType:(NSString *)type {
     if (!type) return [self alloc];
 
-    NSAssert(JBEEnumTypes[type], @"Invalid type: %@");
+    NSAssert(JBEEnumTypes[type], @"Invalid type: %@", type);
     
     return [JBEEnumTypes[type] alloc];
 }
