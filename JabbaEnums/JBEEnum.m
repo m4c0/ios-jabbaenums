@@ -32,15 +32,18 @@ const char JBEEnumClassMethodSuffix;
         unsigned int count;
         Class * list = objc_copyClassList(&count);
         for (int i = 0; i < count; i++) {
-            if (class_respondsToSelector(list[i], @selector(someSeriouslyUglyWorkaroundToTestForJbeEnums))) {
-                types[NSStringFromClass(list[i])] = list[i];
+            Class c = list[i];
+            while (c = class_getSuperclass(c)) {
+                if (c == [JBEEnum self]) {
+                    types[NSStringFromClass(list[i])] = list[i];
+                    break;
+                }
             }
         }
         
         JBEEnumTypes = [types copy];
     });
 }
-- (void)someSeriouslyUglyWorkaroundToTestForJbeEnums {}
 
 + (void)releaseCache {
     objc_setAssociatedObject(self, &JBEEnumClassArray, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
