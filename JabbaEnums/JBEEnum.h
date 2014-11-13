@@ -23,8 +23,7 @@
 + (NSArray *)allInstances;
 + (void)releaseCache;
 
-+ (NSDictionary *)loadDictionaryFromURL:(NSURL *)url;
-+ (NSDictionary *)convertDictionary:(NSDictionary *)dict;
++ (NSDictionary *)convertAndRegisterDictionary:(NSDictionary *)dict;
 
 - (instancetype)initForKey:(NSString *)key withDictionary:(NSDictionary *)dict andDefaults:(NSDictionary *)defs;
 - (NSString *)stringValue;

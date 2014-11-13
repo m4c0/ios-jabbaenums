@@ -88,6 +88,13 @@ const char JBEEnumClassMethodSuffix;
     NSDictionary * dict = [NSDictionary dictionaryWithContentsOfURL:url];
     return [self convertDictionary:dict];
 }
+
++ (NSDictionary *)convertAndRegisterDictionary:(NSDictionary *)dict {
+    NSDictionary * res = [self convertDictionary:dict];
+    objc_setAssociatedObject(self, &JBEEnumClassDictionary, [res copy], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return res;
+}
+
 + (NSDictionary *)convertDictionary:(NSDictionary *)dict {
     Class meta = object_getClass(self);
     NSMutableDictionary * res = [NSMutableDictionary new];
