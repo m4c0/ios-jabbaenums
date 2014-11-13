@@ -35,7 +35,8 @@ const char JBEEnumClassMethodSuffix;
             Class c = list[i];
             while ((c = class_getSuperclass(c))) {
                 if (c == [JBEEnum self]) {
-                    types[NSStringFromClass(list[i])] = list[i];
+                    NSString * cn = [NSStringFromClass(list[i]) substringFromIndex:3];
+                    types[cn] = list[i];
                     break;
                 }
             }
@@ -63,9 +64,10 @@ const char JBEEnumClassMethodSuffix;
 + (instancetype)allocForType:(NSString *)type {
     if (!type) return [self alloc];
 
-    NSAssert(JBEEnumTypes[type], @"Invalid type: %@", type);
+    NSString * name = [type stringByAppendingString:[self methodSuffix]];
+    NSAssert(JBEEnumTypes[name], @"Invalid type: %@", type);
     
-    return [JBEEnumTypes[type] alloc];
+    return [JBEEnumTypes[name] alloc];
 }
 
 + (NSURL *)urlForBlockDictionary {
