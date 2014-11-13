@@ -10,7 +10,7 @@
 
 @import ObjectiveC.runtime;
 
-static NSMutableSet * JBEEnumPrefixes = nil;
+static NSDictionary * JBEEnumTypes = nil;
 
 const char JBEEnumClassArray;
 const char JBEEnumClassDictionary;
@@ -24,13 +24,23 @@ const char JBEEnumClassMethodSuffix;
     if (self != [JBEEnum self] && [self urlForBlockDictionary]) [self blockDictionary];
 }
 
-+ (void)registerClassPrefix:(NSString *)prefix {
++ (void)preloadEveryEnumPossible {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        JBEEnumPrefixes = [NSMutableSet new];
+        NSMutableDictionary * types = [NSMutableDictionary new];
+        
+        unsigned int count;
+        Class * list = objc_copyClassList(&count);
+        for (int i = 0; i < count; i++) {
+            if (class_respondsToSelector(list[i], @selector(someSeriouslyUglyWorkaroundToTestForJbeEnums))) {
+                types[NSStringFromClass(list[i])] = list[i];
+            }
+        }
+        
+        JBEEnumTypes = [types copy];
     });
-    [JBEEnumPrefixes addObject:prefix];
 }
+- (void)someSeriouslyUglyWorkaroundToTestForJbeEnums {}
 
 + (void)releaseCache {
     objc_setAssociatedObject(self, &JBEEnumClassArray, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -49,13 +59,10 @@ const char JBEEnumClassMethodSuffix;
 
 + (instancetype)allocForType:(NSString *)type {
     if (!type) return [self alloc];
+
+    NSAssert(JBEEnumTypes[type], @"Invalid type: %@");
     
-    for (NSString * prefix in JBEEnumPrefixes) {
-        NSString * realClassName = [NSString stringWithFormat:@"%@%@%@", prefix, type, [self methodSuffix]];
-        Class clz = NSClassFromString(realClassName);
-        if (clz) return [clz alloc];
-    }
-    abort();
+    return [JBEEnumTypes[type] alloc];
 }
 
 + (NSURL *)urlForBlockDictionary {

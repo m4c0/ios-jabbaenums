@@ -12,7 +12,7 @@
 @property (nonatomic, readonly) NSString * key;
 @property (nonatomic, readonly) NSString * variant;
 
-+ (void)registerClassPrefix:(NSString *)prefix;
++ (void)preloadEveryEnumPossible;
 
 + (instancetype)instanceWithKey:(NSString *)key;
 + (instancetype)instanceWithKey:(NSString *)key andVariant:(NSString *)variant;
