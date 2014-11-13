@@ -10,6 +10,8 @@
 
 @import ObjectiveC.runtime;
 
+static NSMutableSet * JBEEnumPrefixes = nil;
+
 const char JBEEnumClassArray;
 const char JBEEnumClassDictionary;
 const char JBEEnumClassMethodSuffix;
@@ -20,6 +22,14 @@ const char JBEEnumClassMethodSuffix;
 
 + (void)initialize {
     if (self != [JBEEnum self] && [self urlForBlockDictionary]) [self blockDictionary];
+}
+
++ (void)registerClassPrefix:(NSString *)prefix {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        JBEEnumPrefixes = [NSMutableSet new];
+    });
+    [JBEEnumPrefixes addObject:prefix];
 }
 
 + (void)releaseCache {
@@ -40,8 +50,12 @@ const char JBEEnumClassMethodSuffix;
 + (instancetype)allocForType:(NSString *)type {
     if (!type) return [self alloc];
     
-    NSString * realClassName = [NSString stringWithFormat:@"IGE%@%@", type, [self methodSuffix]];
-    return [NSClassFromString(realClassName) alloc];
+    for (NSString * prefix in JBEEnumPrefixes) {
+        NSString * realClassName = [NSString stringWithFormat:@"%@%@%@", prefix, type, [self methodSuffix]];
+        Class clz = NSClassFromString(realClassName);
+        if (clz) return [clz alloc];
+    }
+    abort();
 }
 
 + (NSURL *)urlForBlockDictionary {

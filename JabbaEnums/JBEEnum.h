@@ -12,6 +12,8 @@
 @property (nonatomic, readonly) NSString * key;
 @property (nonatomic, readonly) NSString * variant;
 
++ (void)registerClassPrefix:(NSString *)prefix;
+
 + (instancetype)instanceWithKey:(NSString *)key;
 + (instancetype)instanceWithKey:(NSString *)key andVariant:(NSString *)variant;
 + (NSArray *)instancesWithKey:(NSString *)key;
