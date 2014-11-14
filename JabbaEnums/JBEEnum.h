@@ -26,5 +26,6 @@
 + (NSDictionary *)convertAndRegisterDictionary:(NSDictionary *)dict;
 
 - (instancetype)initForKey:(NSString *)key withDictionary:(NSDictionary *)dict andDefaults:(NSDictionary *)defs;
+- (void)enumDidLoad;
 - (NSString *)stringValue;
 @end
