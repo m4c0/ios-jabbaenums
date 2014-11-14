@@ -80,7 +80,8 @@ const char JBEEnumClassMethodSuffix;
         NSURL * url = [self urlForBlockDictionary];
         NSDictionary * res = url ? [self loadDictionaryFromURL:url] : [self filterDictionaryFromSuper];
         instance = [res copy];
-        [self storeDictionaryAndNotify:instance];
+        objc_setAssociatedObject(self, &JBEEnumClassDictionary, res, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        if (url) [[res allValues] makeObjectsPerformSelector:@selector(enumDidLoad)];
     }
     return instance;
 }
@@ -91,13 +92,9 @@ const char JBEEnumClassMethodSuffix;
 
 + (NSDictionary *)convertAndRegisterDictionary:(NSDictionary *)dict {
     NSDictionary * res = [[self convertDictionary:dict] copy];
-    [self storeDictionaryAndNotify:res];
-    return res;
-}
-
-+ (void)storeDictionaryAndNotify:(NSDictionary *)res {
     objc_setAssociatedObject(self, &JBEEnumClassDictionary, res, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [[res allValues] makeObjectsPerformSelector:@selector(enumDidLoad)];
+    return res;
 }
 
 + (NSDictionary *)convertDictionary:(NSDictionary *)dict {
