@@ -35,8 +35,10 @@ const char JBEEnumClassMethodSuffix;
             Class c = list[i];
             while ((c = class_getSuperclass(c))) {
                 if (c == [JBEEnum self]) {
-                    NSString * cn = [NSStringFromClass(list[i]) substringFromIndex:3];
-                    types[cn] = list[i];
+                    const char * name = class_getName(list[i]);
+                    NSString * a = [NSString stringWithUTF8String:name + 3];
+                    NSString * b = [NSString stringWithUTF8String:name];
+                    types[a] = b; // Usar list[i] no lugar de b gera racing com o +initialize
                     break;
                 }
             }
@@ -67,7 +69,7 @@ const char JBEEnumClassMethodSuffix;
     NSString * name = [type stringByAppendingString:[self methodSuffix]];
     NSAssert(JBEEnumTypes[name], @"Invalid type: %@", type);
     
-    return [JBEEnumTypes[name] alloc];
+    return [NSClassFromString(JBEEnumTypes[name]) alloc];
 }
 
 + (NSURL *)urlForBlockDictionary {
@@ -81,7 +83,7 @@ const char JBEEnumClassMethodSuffix;
         NSDictionary * res = url ? [self loadDictionaryFromURL:url] : [self filterDictionaryFromSuper];
         instance = [res copy];
         objc_setAssociatedObject(self, &JBEEnumClassDictionary, res, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        if (url) [[res allValues] makeObjectsPerformSelector:@selector(enumDidLoad)];
+        if (url) [self notifyEnumsAfterLoading:[res allValues]];
     }
     return instance;
 }
@@ -93,8 +95,18 @@ const char JBEEnumClassMethodSuffix;
 + (NSDictionary *)convertAndRegisterDictionary:(NSDictionary *)dict {
     NSDictionary * res = [[self convertDictionary:dict] copy];
     objc_setAssociatedObject(self, &JBEEnumClassDictionary, res, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    [[res allValues] makeObjectsPerformSelector:@selector(enumDidLoad)];
+    [self notifyEnumsAfterLoading:[res allValues]];
     return res;
+}
+
++ (void)notifyEnumsAfterLoading:(NSArray *)all {
+    for (id obj in all) {
+        if ([obj isKindOfClass:[JBEEnum class]]) {
+            [obj enumDidLoad];
+        } else if ([obj isKindOfClass:[NSDictionary class]]) {
+            [self notifyEnumsAfterLoading:[obj allValues]];
+        }
+    }
 }
 
 + (NSDictionary *)convertDictionary:(NSDictionary *)dict {
