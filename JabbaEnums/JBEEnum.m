@@ -20,10 +20,6 @@ const char JBEEnumClassMethodSuffix;
 @synthesize key = m_key;
 @synthesize variant = m_variant;
 
-+ (void)initialize {
-    if (self != [JBEEnum self] && [self urlForBlockDictionary]) [self blockDictionary];
-}
-
 + (void)preloadEveryEnumPossible {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -37,14 +33,17 @@ const char JBEEnumClassMethodSuffix;
                 if (c == [JBEEnum self]) {
                     const char * name = class_getName(list[i]);
                     NSString * a = [NSString stringWithUTF8String:name + 3];
-                    NSString * b = [NSString stringWithUTF8String:name];
-                    types[a] = b; // Usar list[i] no lugar de b gera racing com o +initialize
+                    types[a] = list[i];
                     break;
                 }
             }
         }
         
         JBEEnumTypes = [types copy];
+        
+        for (Class e in [JBEEnumTypes allValues]) {
+            if ([e urlForBlockDictionary]) [e blockDictionary];
+        }
     });
 }
 
@@ -69,7 +68,7 @@ const char JBEEnumClassMethodSuffix;
     NSString * name = [type stringByAppendingString:[self methodSuffix]];
     NSAssert(JBEEnumTypes[name], @"Invalid type: %@", type);
     
-    return [NSClassFromString(JBEEnumTypes[name]) alloc];
+    return [JBEEnumTypes[name] alloc];
 }
 
 + (NSURL *)urlForBlockDictionary {
