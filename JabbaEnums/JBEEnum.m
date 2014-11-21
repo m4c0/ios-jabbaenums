@@ -20,6 +20,19 @@ const char JBEEnumClassMethodSuffix;
 @synthesize key = m_key;
 @synthesize variant = m_variant;
 
++ (NSArray *)instancesForPredicateWithFormat:(NSString *)predicate, ... {
+    va_list args;
+    va_start(args, predicate);
+    NSArray * res = [self instancesForPredicateWithFormat:predicate arguments:args];
+    va_end(args);
+    
+    return res;
+}
++ (NSArray *)instancesForPredicateWithFormat:(NSString *)predicate arguments:(va_list)args {
+    NSPredicate * pred = [NSPredicate predicateWithFormat:predicate arguments:args];
+    return [[self allInstances] filteredArrayUsingPredicate:pred];
+}
+
 + (void)preloadEveryEnumPossible {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

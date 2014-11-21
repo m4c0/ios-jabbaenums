@@ -20,6 +20,9 @@
 
 + (instancetype)instanceForString:(NSString *)str;
 
++ (NSArray *)instancesForPredicateWithFormat:(NSString *)predicate, ...;
++ (NSArray *)instancesForPredicateWithFormat:(NSString *)predicate arguments:(va_list)args;
+
 + (NSArray *)allInstances;
 + (void)releaseCache;
 
