@@ -15,6 +15,7 @@ FOUNDATION_EXPORT double JabbaEnumsVersionNumber;
 FOUNDATION_EXPORT const unsigned char JabbaEnumsVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <JabbaEnums/PublicHeader.h>
+#import <JabbaEnums/JBEDictionaryPicker.h>
 #import <JabbaEnums/JBEEnum.h>
 #import <JabbaEnums/JBEObject.h>
 #import <JabbaEnums/JBEObjectProxy.h>

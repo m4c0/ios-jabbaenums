@@ -14,6 +14,8 @@
 		4490A16C1A13D6CE009EFE2B /* JBEObjectProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4490A16A1A13D6CE009EFE2B /* JBEObjectProxy.m */; };
 		4490A16F1A13D975009EFE2B /* JBEEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = 4490A16D1A13D975009EFE2B /* JBEEnum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4490A1701A13D975009EFE2B /* JBEEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = 4490A16E1A13D975009EFE2B /* JBEEnum.m */; };
+		44D557761A2E622300168958 /* JBEDictionaryPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D557741A2E622300168958 /* JBEDictionaryPicker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		44D557771A2E622300168958 /* JBEDictionaryPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 44D557751A2E622300168958 /* JBEDictionaryPicker.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		4490A16A1A13D6CE009EFE2B /* JBEObjectProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBEObjectProxy.m; sourceTree = "<group>"; };
 		4490A16D1A13D975009EFE2B /* JBEEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBEEnum.h; sourceTree = "<group>"; };
 		4490A16E1A13D975009EFE2B /* JBEEnum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBEEnum.m; sourceTree = "<group>"; };
+		44D557741A2E622300168958 /* JBEDictionaryPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBEDictionaryPicker.h; sourceTree = "<group>"; };
+		44D557751A2E622300168958 /* JBEDictionaryPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBEDictionaryPicker.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,8 @@
 			isa = PBXGroup;
 			children = (
 				4490A1491A13D527009EFE2B /* JabbaEnums.h */,
+				44D557741A2E622300168958 /* JBEDictionaryPicker.h */,
+				44D557751A2E622300168958 /* JBEDictionaryPicker.m */,
 				4490A16D1A13D975009EFE2B /* JBEEnum.h */,
 				4490A16E1A13D975009EFE2B /* JBEEnum.m */,
 				4490A1651A13D623009EFE2B /* JBEObject.h */,
@@ -88,6 +94,7 @@
 				4490A14A1A13D527009EFE2B /* JabbaEnums.h in Headers */,
 				4490A16F1A13D975009EFE2B /* JBEEnum.h in Headers */,
 				4490A1671A13D623009EFE2B /* JBEObject.h in Headers */,
+				44D557761A2E622300168958 /* JBEDictionaryPicker.h in Headers */,
 				4490A16B1A13D6CE009EFE2B /* JBEObjectProxy.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -161,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4490A1681A13D623009EFE2B /* JBEObject.m in Sources */,
+				44D557771A2E622300168958 /* JBEDictionaryPicker.m in Sources */,
 				4490A16C1A13D6CE009EFE2B /* JBEObjectProxy.m in Sources */,
 				4490A1701A13D975009EFE2B /* JBEEnum.m in Sources */,
 			);
